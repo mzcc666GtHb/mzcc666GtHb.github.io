@@ -20,55 +20,78 @@
       }
 
       .container {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        min-height: 90vh;
       }
 
       .header {
         background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         color: white;
-        padding: 30px;
+        padding: 20px;
         text-align: center;
+        flex-shrink: 0;
       }
 
       .header h1 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
+        font-size: 2em;
+        margin-bottom: 5px;
         font-weight: 300;
       }
 
       .header p {
-        font-size: 1.1em;
+        font-size: 1em;
         opacity: 0.9;
       }
 
+      .main-content {
+        display: flex;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .left-panel {
+        flex: 1;
+        padding: 30px;
+        border-right: 1px solid #e1e5e9;
+      }
+
+      .right-panel {
+        flex: 1;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+      }
+
       .content {
-        padding: 40px;
+        padding: 0;
       }
 
       .form-group {
-        margin-bottom: 25px;
+        margin-bottom: 20px;
       }
 
       .form-group label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         font-weight: 600;
         color: #555;
-        font-size: 0.95em;
+        font-size: 0.9em;
       }
 
       .form-group input {
         width: 100%;
-        padding: 15px;
+        padding: 12px;
         border: 2px solid #e1e5e9;
-        border-radius: 10px;
-        font-size: 16px;
+        border-radius: 8px;
+        font-size: 14px;
         transition: all 0.3s ease;
         background: #f8f9fa;
       }
@@ -86,12 +109,12 @@
 
       .submit-btn {
         width: 100%;
-        padding: 15px;
+        padding: 12px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        border-radius: 10px;
-        font-size: 18px;
+        border-radius: 8px;
+        font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -108,12 +131,13 @@
       }
 
       .result {
-        margin-top: 30px;
-        padding: 25px;
+        flex: 1;
+        padding: 20px;
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         border-radius: 15px;
         color: white;
         display: none;
+        margin-top: 0;
       }
 
       .result.show {
@@ -124,17 +148,17 @@
       @keyframes slideIn {
         from {
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateX(20px);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateX(0);
         }
       }
 
       .result h3 {
         margin-bottom: 15px;
-        font-size: 1.3em;
+        font-size: 1.2em;
         font-weight: 600;
       }
 
@@ -143,9 +167,9 @@
       }
 
       .result li {
-        padding: 12px 0;
+        padding: 10px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 1.1em;
+        font-size: 1em;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -158,13 +182,14 @@
       .quantity {
         font-weight: 600;
         background: rgba(255, 255, 255, 0.2);
-        padding: 5px 12px;
-        border-radius: 20px;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.9em;
       }
 
       .price {
         font-weight: 700;
-        font-size: 1.2em;
+        font-size: 1.1em;
       }
 
       .error {
@@ -179,46 +204,58 @@
 
       .info-box {
         background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 30px;
-        border-left: 5px solid #4facfe;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border-left: 4px solid #4facfe;
       }
 
       .info-box h3 {
         color: #333;
-        margin-bottom: 10px;
-        font-size: 1.2em;
+        margin-bottom: 8px;
+        font-size: 1.1em;
       }
 
       .info-box p {
         color: #666;
-        line-height: 1.6;
-        margin-bottom: 8px;
+        line-height: 1.5;
+        margin-bottom: 6px;
+        font-size: 0.9em;
       }
 
       @media (max-width: 768px) {
         .container {
           margin: 10px;
           border-radius: 15px;
+          flex-direction: column;
+        }
+
+        .main-content {
+          flex-direction: column;
+        }
+
+        .left-panel {
+          border-right: none;
+          border-bottom: 1px solid #e1e5e9;
         }
 
         .header {
-          padding: 20px;
+          padding: 15px;
         }
 
         .header h1 {
-          font-size: 2em;
+          font-size: 1.8em;
         }
 
-        .content {
+        .left-panel,
+        .right-panel {
           padding: 20px;
         }
 
         .result li {
           flex-direction: column;
           align-items: flex-start;
-          gap: 8px;
+          gap: 6px;
         }
       }
     </style>
@@ -230,44 +267,48 @@
         <p>智能计算最优定价策略</p>
       </div>
       
-      <div class="content">
-        <div class="info-box">
-          <h3>📊 计算说明</h3>
-          <p>• 本工具会根据目标利润率自动计算最优定价</p>
-          <p>• 考虑了赠品概率对成本的影响</p>
-          <p>• 支持多种购买数量的批量计算</p>
+      <div class="main-content">
+        <div class="left-panel">
+          <div class="info-box">
+            <h3>📊 计算说明</h3>
+            <p>• 本工具会根据目标利润率自动计算最优定价</p>
+            <p>• 考虑了赠品概率对成本的影响</p>
+            <p>• 支持多种购买数量的批量计算</p>
+          </div>
+
+          <form id="pricing-form">
+            <div class="form-group">
+              <label for="cost">💰 每个商品的进价（cost）</label>
+              <input type="number" step="0.01" name="cost" id="cost" required placeholder="请输入商品进价" />
+            </div>
+            
+            <div class="form-group">
+              <label for="shipping">🚚 每单固定运费（shipping）</label>
+              <input type="number" step="0.01" name="shipping" id="shipping" required placeholder="请输入运费金额" />
+            </div>
+            
+            <div class="form-group">
+              <label for="probability">🎯 用户命中目标角色的概率（0-1）</label>
+              <input type="number" step="0.01" min="0" max="1" name="probability" id="probability" required placeholder="如：0.3 表示 30%" />
+            </div>
+            
+            <div class="form-group">
+              <label for="quantities">📦 用户可能购买的商品数量列表</label>
+              <input type="text" name="quantities" id="quantities" required placeholder="如：1,2,3,5（逗号分隔）" />
+            </div>
+            
+            <div class="form-group">
+              <label for="profitRate">💎 目标利润率（0-1）</label>
+              <input type="number" step="0.01" min="0" max="1" name="profitRate" id="profitRate" required placeholder="如：0.5 表示 50%" />
+            </div>
+            
+            <button type="submit" class="submit-btn">🚀 开始计算</button>
+          </form>
         </div>
 
-        <form id="pricing-form">
-          <div class="form-group">
-            <label for="cost">💰 每个商品的进价（cost）</label>
-            <input type="number" step="0.01" name="cost" id="cost" required placeholder="请输入商品进价" />
-          </div>
-          
-          <div class="form-group">
-            <label for="shipping">🚚 每单固定运费（shipping）</label>
-            <input type="number" step="0.01" name="shipping" id="shipping" required placeholder="请输入运费金额" />
-          </div>
-          
-          <div class="form-group">
-            <label for="probability">🎯 用户命中目标角色的概率（0-1）</label>
-            <input type="number" step="0.01" min="0" max="1" name="probability" id="probability" required placeholder="如：0.3 表示 30%" />
-          </div>
-          
-          <div class="form-group">
-            <label for="quantities">📦 用户可能购买的商品数量列表</label>
-            <input type="text" name="quantities" id="quantities" required placeholder="如：1,2,3,5（逗号分隔）" />
-          </div>
-          
-          <div class="form-group">
-            <label for="profitRate">💎 目标利润率（0-1）</label>
-            <input type="number" step="0.01" min="0" max="1" name="profitRate" id="profitRate" required placeholder="如：0.5 表示 50%" />
-          </div>
-          
-          <button type="submit" class="submit-btn">🚀 开始计算</button>
-        </form>
-        
-        <div id="result" class="result"></div>
+        <div class="right-panel">
+          <div id="result" class="result"></div>
+        </div>
       </div>
     </div>
 
