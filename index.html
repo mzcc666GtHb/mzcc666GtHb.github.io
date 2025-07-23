@@ -1,21 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>My First Heading</h1>
-  <p>My first paragraph.</p>
-  <p>My second paragraph.</p>
-  <p>My third paragraph.</p>
-  <p>My fourth paragraph.</p>
-  <p>My fifth paragraph.</p>
-  <p>My sixth paragraph.</p>
-  <p>My seventh paragraph.</p>
-  <p>My eighth paragraph.</p>
-  <p>My ninth paragraph.</p>
-  <p>My tenth paragraph.</p>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1></h1>
+    <p>
+      ======== 自推+1 ========
+    </p>
+    <form id="pricing-form">
+      <label>
+        每个商品的进价（cost）：<input type="number" step="0.01" name="cost" required />
+      </label><br />
+      <label>
+        每单固定运费（shipping）：<input type="number" step="0.01" name="shipping" required />
+      </label><br />
+      <label>
+        用户命中目标角色的概率（probability，0-1）：<input type="number" step="0.01" min="0" max="1" name="probability" required />
+      </label><br />
+      <label>
+        用户可能购买的商品数量列表（quantities，逗号分隔）：<input type="text" name="quantities" required placeholder="如 1,2,3,5" />
+      </label><br />
+      <label>
+        目标利润率（profitRate，0-1）：<input type="number" step="0.01" min="0" max="1" name="profitRate" required />
+      </label><br />
+      <button type="submit">计算</button>
+    </form>
+    <div id="result"></div>
+    <script>
+      /**
+       * 计算每种购买数量对应的定价总价（含利润）
+       *
+       * @param {Object} params - 参数对象
+       * @param {number} params.cost - 每个商品的进价
+       * @param {number} params.shipping - 每单固定运费（不随数量变化）
+       * @param {number} params.probability - 用户命中目标角色的概率
+       * @param {number[]} params.quantities - 用户可能购买的商品数量列表（如 [1, 2, 3, 5]）
+       * @param {number} params.profitRate - 目标利润率（如 0.5 表示 50%）
+       * @returns {number[]} 每个数量对应的总售价（已考虑赠品和利润）
+       */
+      function calcTotalPricing(params) {
+        const { cost, shipping, probability, quantities, profitRate } = params;
+
+        return quantities.map(function (n) {
+          if (n <= 0) throw new Error("购买数量必须为正整数");
+
+          // 期望赠送的数量 = n * probability
+          // 总成本 = (原始数量 + 期望赠送数) * 成本 + 运费
+          const expectedCost = cost * n * (1 + probability) + shipping;
+
+          // 为了达到目标利润率，定价 = 成本 / (1 - 利润率)
+          const totalRevenue = expectedCost / (1 - profitRate);
+
+          // 返回保留两位小数的总价
+          return parseFloat(totalRevenue.toFixed(2));
+        });
+      }
+
+      // 表单交互逻辑
+      document.getElementById('pricing-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const cost = parseFloat(form.cost.value);
+        const shipping = parseFloat(form.shipping.value);
+        const probability = parseFloat(form.probability.value);
+        const quantities = form.quantities.value.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+        const profitRate = parseFloat(form.profitRate.value);
+        let resultDiv = document.getElementById('result');
+        try {
+          const prices = calcTotalPricing({ cost, shipping, probability, quantities, profitRate });
+          let html = '<h3>每个数量对应的总售价：</h3><ul>';
+          for (let i = 0; i < quantities.length; i++) {
+            html += `<li>数量 ${quantities[i]}：￥${prices[i]}</li>`;
+          }
+          html += '</ul>';
+          resultDiv.innerHTML = html;
+        } catch (err) {
+          resultDiv.innerHTML = `<span style='color:red;'>错误：${err.message}</span>`;
+        }
+      });
+    </script>
+  </body>
 </html>
