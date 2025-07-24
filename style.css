@@ -135,6 +135,7 @@ body {
 .welcome-content {
   text-align: center;
   padding: 20px 0;
+  color: #333;
 }
 
 .welcome-content h3 {
@@ -231,6 +232,7 @@ body {
   margin-bottom: 15px;
   font-size: 1.2em;
   font-weight: 600;
+  color: #333;
 }
 
 .result ul {
@@ -288,7 +290,7 @@ body {
 }
 
 .info-box p {
-  color: #999;
+  color: #333;
   line-height: 1.5;
   margin-bottom: 6px;
   font-size: 13px;
