@@ -4,302 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>商品定价计算器</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 20px;
-        color: #333;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        backdrop-filter: blur(10px);
-        display: flex;
-        flex-direction: column;
-        min-height: 90vh;
-      }
-
-      .header {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
-        padding: 20px;
-        text-align: center;
-        flex-shrink: 0;
-      }
-
-      .header h1 {
-        font-size: 2em;
-        margin-bottom: 5px;
-        font-weight: 300;
-      }
-
-      .header p {
-        font-size: 1em;
-        opacity: 0.9;
-      }
-
-      .main-content {
-        display: flex;
-        flex: 1;
-        min-height: 0;
-      }
-
-      .left-panel {
-        flex: 1;
-        padding: 30px;
-        border-right: 1px solid #e1e5e9;
-      }
-
-      .right-panel {
-        flex: 1;
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .content {
-        padding: 0;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: 600;
-        color: #555;
-        font-size: 0.9em;
-      }
-
-      .form-group input {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e1e5e9;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        background: #f8f9fa;
-      }
-
-      .form-group input:focus {
-        outline: none;
-        border-color: #4facfe;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-      }
-
-      .form-group input::placeholder {
-        color: #999;
-      }
-
-      .submit-btn {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-      }
-
-      .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-      }
-
-      .submit-btn:active {
-        transform: translateY(0);
-      }
-
-      .result {
-        flex: 1;
-        padding: 20px;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        border-radius: 15px;
-        color: white;
-        display: none;
-        margin-top: 0;
-      }
-
-      .result.show {
-        display: block;
-        animation: slideIn 0.5s ease;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .result h3 {
-        margin-bottom: 15px;
-        font-size: 1.2em;
-        font-weight: 600;
-      }
-
-      .result ul {
-        list-style: none;
-      }
-
-      .result li {
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 1em;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .result li:last-child {
-        border-bottom: none;
-      }
-
-      .quantity {
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.2);
-        padding: 4px 10px;
-        border-radius: 15px;
-        font-size: 0.9em;
-      }
-
-      .price {
-        font-weight: 700;
-        font-size: 1.1em;
-      }
-
-      .error {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-        color: white;
-        padding: 15px;
-        border-radius: 10px;
-        margin-top: 20px;
-        text-align: center;
-        font-weight: 600;
-      }
-
-      .info-box {
-        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        border-left: 4px solid #4facfe;
-      }
-
-      .info-box h3 {
-        color: #333;
-        margin-bottom: 8px;
-        font-size: 1.1em;
-      }
-
-      .info-box p {
-        color: #666;
-        line-height: 1.5;
-        margin-bottom: 6px;
-        font-size: 0.9em;
-      }
-
-      @media (max-width: 768px) {
-        .container {
-          margin: 10px;
-          border-radius: 15px;
-          flex-direction: column;
-        }
-
-        .main-content {
-          flex-direction: column;
-        }
-
-        .left-panel {
-          border-right: none;
-          border-bottom: 1px solid #e1e5e9;
-        }
-
-        .header {
-          padding: 15px;
-        }
-
-        .header h1 {
-          font-size: 1.8em;
-        }
-
-        .left-panel,
-        .right-panel {
-          padding: 20px;
-        }
-
-        .result li {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 6px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <h1>商品定价计算器</h1>
-        <p>智能计算最优定价策略</p>
-      </div>
-      
       <div class="main-content">
         <div class="left-panel">
           <div class="info-box">
             <h3>📊 计算说明</h3>
             <p>• 本工具会根据目标利润率自动计算最优定价</p>
-            <p>• 考虑了赠品概率对成本的影响</p>
-            <p>• 支持多种购买数量的批量计算</p>
+            <p>• 压货成本 = 进货价 × 压货成本比例，包括仓储费、资金占用成本等</p>
+            <p>• 总成本 = 进货价 × 数量 × (1 + 命中概率) × (1 + 压货成本比例) + 运费</p>
+            <p>• 平拆玩法用户命中目标角色的概率输入0</p>
           </div>
-
           <form id="pricing-form">
             <div class="form-group">
-              <label for="cost">💰 每个商品的进价（cost）</label>
+              <label for="cost">💰 每个商品的进价</label>
               <input type="number" step="0.01" name="cost" id="cost" required placeholder="请输入商品进价" />
             </div>
             
             <div class="form-group">
-              <label for="shipping">🚚 每单固定运费（shipping）</label>
+              <label for="shipping">🚚 每单固定运费</label>
               <input type="number" step="0.01" name="shipping" id="shipping" required placeholder="请输入运费金额" />
             </div>
             
             <div class="form-group">
+              <label for="inventoryCost">📦 压货成本比例（可选）</label>
+              <input type="number" step="0.01" min="0" max="1" name="inventoryCost" id="inventoryCost" placeholder="如：0.1 表示进货价的10%" />
+              <small style="color: #666; font-size: 0.8em;">💡 压货成本 = 进货价 × 比例，包括仓储、资金占用等成本，如不填写则默认为0</small>
+            </div>
+            
+            <div class="form-group">
               <label for="probability">🎯 用户命中目标角色的概率（0-1）</label>
-              <input type="number" step="0.01" min="0" max="1" name="probability" id="probability" required placeholder="如：0.3 表示 30%" />
+              <input type="number" step="0.001" min="0" max="1" name="probability" id="probability" required placeholder="如：0.3 表示 30%" />
             </div>
             
             <div class="form-group">
               <label for="quantities">📦 用户可能购买的商品数量列表</label>
-              <input type="text" name="quantities" id="quantities" required placeholder="如：1,2,3,5（逗号分隔）" />
+              <input type="text" name="quantities" id="quantities" required placeholder="如：1,2,3,5（逗号分隔）" value="1,2,3,4,5,6,7,8,9,10" />
             </div>
             
             <div class="form-group">
-              <label for="profitRate">💎 目标利润率（0-1）</label>
-              <input type="number" step="0.01" min="0" max="1" name="profitRate" id="profitRate" required placeholder="如：0.5 表示 50%" />
+              <label for="profitRate">💎 目标利润率</label>
+              <input type="number" step="0.01" min="0" max="0.999" name="profitRate" id="profitRate" required placeholder="如：0.5 表示 50%，0.8 表示 80%" />
             </div>
             
             <button type="submit" class="submit-btn">🚀 开始计算</button>
@@ -307,7 +54,29 @@
         </div>
 
         <div class="right-panel">
-          <div id="result" class="result"></div>
+          <div id="result" class="result">
+            <div class="welcome-content">
+              <h3>🎯 欢迎使用商品定价计算器</h3>
+              <div class="welcome-steps">
+                <div class="step">
+                  <span class="step-number">1</span>
+                  <span class="step-text">填写商品基本信息</span>
+                </div>
+                <div class="step">
+                  <span class="step-number">2</span>
+                  <span class="step-text">设置目标利润率</span>
+                </div>
+                <div class="step">
+                  <span class="step-number">3</span>
+                  <span class="step-text">点击开始计算</span>
+                </div>
+                <div class="step">
+                  <span class="step-number">4</span>
+                  <span class="step-text">查看最优定价结果</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -319,20 +88,27 @@
        * @param {Object} params - 参数对象
        * @param {number} params.cost - 每个商品的进价
        * @param {number} params.shipping - 每单固定运费（不随数量变化）
+       * @param {number} params.inventoryCost - 压货成本占进货价的比例（可选，默认为0）
        * @param {number} params.probability - 用户命中目标角色的概率
        * @param {number[]} params.quantities - 用户可能购买的商品数量列表（如 [1, 2, 3, 5]）
-       * @param {number} params.profitRate - 目标利润率（如 0.5 表示 50%）
-       * @returns {number[]} 每个数量对应的总售价（已考虑赠品和利润）
+       * @param {number} params.profitRate - 目标利润率（如 0.5 表示 50%，必须小于1）
+       * @returns {number[]} 每个数量对应的总售价（已考虑赠品、压货成本和利润）
        */
       function calcTotalPricing(params) {
-        const { cost, shipping, probability, quantities, profitRate } = params;
+        const { cost, shipping, inventoryCost = 0, probability, quantities, profitRate } = params;
+
+        // 验证利润率不能大于等于1（100%）
+        if (profitRate >= 1) {
+          throw new Error("利润率不能大于等于100%，请设置小于1的值");
+        }
 
         return quantities.map(function (n) {
           if (n <= 0) throw new Error("购买数量必须为正整数");
 
           // 期望赠送的数量 = n * probability
-          // 总成本 = (原始数量 + 期望赠送数) * 成本 + 运费
-          const expectedCost = cost * n * (1 + probability) + shipping;
+          // 压货成本 = 进货价 × 压货成本比例
+          // 总成本 = (原始数量 + 期望赠送数) * 成本 * (1 + 压货成本比例) + 运费
+          const expectedCost = cost * n * (1 + probability) * (1 + inventoryCost) + shipping;
 
           // 为了达到目标利润率，定价 = 成本 / (1 - 利润率)
           const totalRevenue = expectedCost / (1 - profitRate);
@@ -348,13 +124,14 @@
         const form = e.target;
         const cost = parseFloat(form.cost.value);
         const shipping = parseFloat(form.shipping.value);
+        const inventoryCost = parseFloat(form.inventoryCost.value) || 0; // 如果为空则默认为0
         const probability = parseFloat(form.probability.value);
         const quantities = form.quantities.value.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
         const profitRate = parseFloat(form.profitRate.value);
         let resultDiv = document.getElementById('result');
         
         try {
-          const prices = calcTotalPricing({ cost, shipping, probability, quantities, profitRate });
+          const prices = calcTotalPricing({ cost, shipping, inventoryCost, probability, quantities, profitRate });
           let html = '<h3>🎉 计算结果</h3><ul>';
           for (let i = 0; i < quantities.length; i++) {
             html += `<li><span class="quantity">数量 ${quantities[i]}</span><span class="price">￥${prices[i]}</span></li>`;
